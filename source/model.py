@@ -69,6 +69,7 @@ class UNet(nn.Module):
         self.decoder_4 = decoder_block(128, 64)
 
         self.classifier = nn.Conv2d(64, output_channels, kernel_size=1, padding=0)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, inputs):
         layer_output1, pool_output1 = self.encoder_1(inputs)
@@ -85,6 +86,6 @@ class UNet(nn.Module):
 
         output = self.classifier(decoder_output4)
         
-        output = nn.sigmoid(output)
+        output = self.sigmoid(output)
 
         return output
